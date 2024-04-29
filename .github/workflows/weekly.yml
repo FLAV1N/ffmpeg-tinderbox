@@ -15,7 +15,7 @@ jobs:
       - name: Take a decision
         id: decision
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -xe
           LATEST_RELEASE=$(gh api repos/${{ github.repository }}/releases/latest --jq '.body' | cut -d@ -f2)
@@ -44,8 +44,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build ffmpeg
         run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
@@ -79,7 +79,7 @@ jobs:
       - name: Create release
         id: create_release
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -xe
 
