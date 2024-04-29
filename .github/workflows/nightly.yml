@@ -15,7 +15,7 @@ jobs:
       - name: Take a decision
         id: decision
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GHCR_PAT }}
         run: |
           set -xe
           LATEST_RELEASE=$(gh api repos/${{ github.repository }}/releases/latest --jq '.body' | cut -d@ -f2)
@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win32, win64]
+        target: [win64]
         variant: [nonfree, nonfree-shared]
     steps:
       - name: Checkout
@@ -45,7 +45,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.dodosolsollalasol }}
+          password: ${{ secrets.GHCR_PAT }}
 
       - name: Build ffmpeg
         run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
@@ -79,7 +79,7 @@ jobs:
       - name: Create release
         id: create_release
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GHCR_PAT }}
         run: |
           set -xe
 
