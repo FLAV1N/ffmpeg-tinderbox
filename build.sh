@@ -76,6 +76,9 @@ cat <<EOF >"$BUILD_SCRIPT"
     
     curl https://x266.mov/files/lavf-matroska-vvc-demuxing.patch -o Add-Support-for-VVC-Demuxing.patch
     git apply Add-Support-for-VVC-Demuxing.patch
+
+    curl https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/fef22c87ada4517441701e6e61e062c9f4399c8e -o rename-vulkan-av1.patch
+    git apply rename-vulkan-av1.patch
     
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE \
         --extra-cflags="$FF_CFLAGS" --extra-cxxflags="$FF_CXXFLAGS" \
