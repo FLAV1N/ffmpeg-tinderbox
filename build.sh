@@ -24,7 +24,7 @@ done
 
 export FFBUILD_PREFIX="$(docker run --rm "$IMAGE" bash -c 'echo $FFBUILD_PREFIX')"
 
-for script in $(find scripts.d -name "*.sh"); do
+for script in scripts.d/**/*.sh; do
     FF_CONFIGURE+=" $(get_output $script configure)"
     FF_CFLAGS+=" $(get_output $script cflags)"
     FF_CXXFLAGS+=" $(get_output $script cxxflags)"
@@ -77,7 +77,6 @@ cat <<EOF >"$BUILD_SCRIPT"
     curl https://x266.mov/files/lavf-matroska-vvc-demuxing.patch -o Add-Support-for-VVC-Demuxing.patch
     git apply Add-Support-for-VVC-Demuxing.patch
     
-    ./configure --help
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE \
         --extra-cflags="$FF_CFLAGS" --extra-cxxflags="$FF_CXXFLAGS" \
         --extra-ldflags="$FF_LDFLAGS" --extra-libs="$FF_LIBS"
