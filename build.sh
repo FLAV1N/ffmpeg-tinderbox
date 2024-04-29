@@ -77,6 +77,7 @@ cat <<EOF >"$BUILD_SCRIPT"
     curl https://x266.mov/files/lavf-matroska-vvc-demuxing.patch -o Add-Support-for-VVC-Demuxing.patch
     git apply Add-Support-for-VVC-Demuxing.patch
     
+    '/configure --help
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE \
         --extra-cflags="$FF_CFLAGS" --extra-cxxflags="$FF_CXXFLAGS" \
         --extra-ldflags="$FF_LDFLAGS" --extra-libs="$FF_LIBS"
