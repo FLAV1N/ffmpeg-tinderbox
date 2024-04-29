@@ -25,7 +25,7 @@ ffbuild_dockerbuild() {
         -DCMAKE_CXX_FLAGS="-march=znver3" \
         -DCMAKE_C_FLAGS="-march=znver3" \
         -DCMAKE_LD_FLAGS="-march=znver3" \
-        -DENABLE_AVX512=OFF \
+        -DENABLE_AVX512=ON \
         -DENABLE_NASM=ON \
         -CC="/usr/bin/clang" \
         -CXX="/usr/bin/clang++" \

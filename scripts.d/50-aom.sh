@@ -12,13 +12,13 @@ ffbuild_dockerbuild() {
 
     cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_C_COMPILER=clang \
-    -DCMAKE_CXX_COMPILER=clang++ \
-    -DCMAKE_LINKER=lld \
+    -DCMAKE_C_COMPILER=gcc \
+    -DCMAKE_CXX_COMPILER=g++ \
     -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-    -DCMAKE_CXX_FLAGS="-fuse-ld=lld -O3 -march=znver3 -flto=thin -pipe" \
-    -DCMAKE_C_FLAGS="-fuse-ld=lld -O3 -march=znver3 -flto=thin -pipe" \
-    -DCMAKE_EXE_LINKER_FLAGS="-flto -static" \
+    -DCMAKE_CXX_FLAGS="-flto -O3 -march=znver3" \
+    -DCMAKE_C_FLAGS="-flto -O3 -march=znver3" \
+    -DCMAKE_C_FLAGS_INIT="-flto=4 -static -static-libgcc -static-libstdc++" \
+    -DCMAKE_EXE_LINKER_FLAGS="-flto -static -static-libgcc -static-libstdc++" \
     -DBUILD_SHARED_LIBS=OFF \
     -DENABLE_EXAMPLES=NO \
     -DENABLE_TESTS=NO \
