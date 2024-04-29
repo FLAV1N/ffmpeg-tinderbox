@@ -23,7 +23,6 @@ ffbuild_dockerbuild() {
         -DOPUS_DEEP_PLC=ON \
         -DOPUS_DRED=ON \
         -DOPUS_OSCE=ON \
-        -DOPUS_STATIC_RUNTIME=ON \
         -GNinja \
         ..
     ninja -j"$(nproc)"
