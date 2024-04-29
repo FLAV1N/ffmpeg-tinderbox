@@ -27,8 +27,8 @@ ffbuild_dockerbuild() {
         -DCMAKE_LD_FLAGS="-march=znver3" \
         -DENABLE_AVX512=ON \
         -DENABLE_NASM=ON \
-        -CC="/usr/bin/clang" \
-        -CXX="/usr/bin/clang++" \
+        -DCMAKE_C_COMPILER=clang \
+        -DCMAKE_CXX_COMPILER=clang++ \
         -GNinja \
         ..
     ninja -j"$(nproc)"
