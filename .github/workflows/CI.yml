@@ -40,7 +40,7 @@ jobs:
       - name: Image Name
         id: imagename
         run: |
-          IMG="ghcr.io/${GITHUB_ACTOR,,}/${{ matrix.target }}-${{ matrix.variant }}"
+          IMG="ghcr.io/FLAV1N/${{ matrix.target }}-${{ matrix.variant }}"
           echo "image=${IMG/ /-}:latest" >> $GITHUB_OUTPUT
           echo "cache=${IMG/ /-}:cache" >> $GITHUB_OUTPUT
 
@@ -61,7 +61,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win32, win64]
+        target: [win64]
         variant: [nonfree, nonfree-shared]
     steps:
       - name: Checkout
