@@ -4,6 +4,10 @@
 FROM fedora:rawhide AS base
 
 RUN <<EOF
+    dnf install dnf5 dnf5-plugins
+EOF
+
+RUN <<EOF
     dnf5 config-manager setopt assumeyes=True install_weak_deps=False max_parallel_downloads=20
     dnf5 install \
         autoconf \
