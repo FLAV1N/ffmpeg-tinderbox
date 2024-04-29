@@ -20,9 +20,6 @@ ffbuild_dockerbuild() {
         -DBUILD_{SHARED_LIBS,TESTING}=OFF \
         -DOPUS_BUILD_{PROGRAMS,SHARED_LIBRARY,TESTING}=OFF \
         -DOPUS_FORTIFY_SOURCE=OFF \
-        -DOPUS_DEEP_PLC=ON \
-        -DOPUS_DRED=ON \
-        -DOPUS_OSCE=ON \
         -GNinja \
         ..
     ninja -j"$(nproc)"
