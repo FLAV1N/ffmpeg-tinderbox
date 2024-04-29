@@ -1,5 +1,7 @@
 # syntax=docker/dockerfile:latest
-FROM ghcr.io/nanake/fedora:rawhide AS base
+#FROM ghcr.io/nanake/fedora:rawhide AS base
+#FROM ghcr.io/simulping/base-win64:latest AS base
+FROM fedora:rawhide AS base
 
 RUN <<EOF
     dnf5 config-manager setopt assumeyes=True install_weak_deps=False max_parallel_downloads=20
