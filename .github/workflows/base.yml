@@ -28,7 +28,7 @@ jobs:
       - name: Image Name
         id: imagename
         run: |
-          IMG="ghcr.io/FLAV1N/base-${{ matrix.target }}"
+          IMG="ghcr.io/${GITHUB_ACTOR,,}/base-${{ matrix.target }}"
           echo "image=${IMG/ /-}:latest" >> $GITHUB_OUTPUT
           echo "cache=${IMG/ /-}:cache" >> $GITHUB_OUTPUT
 
