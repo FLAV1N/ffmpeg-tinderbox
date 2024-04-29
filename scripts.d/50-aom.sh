@@ -5,7 +5,7 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git clone --filter=tree:0 --branch=Endless_Merging --single-branch "$AOM_REPO" aom
+    git clone --filter=tree:0 --branch=opmox/mainline-merge --single-branch "$AOM_REPO" aom
     cd aom
 
     mkdir aom_build && cd aom_build
@@ -24,6 +24,8 @@ ffbuild_dockerbuild() {
     -DENABLE_TESTS=NO \
     -DCONFIG_AV1_DECODER=0 \
     -DENABLE_TOOLS=NO \
+    -DCONFIG_TUNE_VMAF=0 \
+    -DCONFIG_TUNE_BUTTERAUGLI=0 \
     -GNinja \
     ..
     ninja -j$(nproc)

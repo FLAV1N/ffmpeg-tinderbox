@@ -37,6 +37,9 @@ RUN <<EOF
         wget2-wget \
         which \
         xxd \
+        clang-tools-extra \
+        llvm \
+        lld \
         yasm
     dnf5 clean all
     git config --system user.email "builder@localhost"
