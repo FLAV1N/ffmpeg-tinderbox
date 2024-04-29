@@ -4,7 +4,7 @@
 FROM fedora:rawhide AS base
 
 RUN <<EOF
-    dnf install dnf5 dnf5-plugins assumeyes=True
+    dnf install dnf5 dnf5-plugins --assumeyes=True
 EOF
 
 RUN <<EOF
