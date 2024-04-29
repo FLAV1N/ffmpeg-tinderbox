@@ -60,8 +60,6 @@ cat <<EOF >"$BUILD_SCRIPT"
     set -xe
     cd /ffbuild
     rm -rf ffmpeg prefix
-    git config --system --unset user.name
-    git config --system --unset user.email
 
     git clone --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
