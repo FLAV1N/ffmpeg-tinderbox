@@ -40,6 +40,6 @@ jobs:
           outputs: type=registry,oci-mediatypes=true,compression=zstd,compression-level=7
           cache-from: type=registry,ref=${{ steps.imagename.outputs.cache }}
           cache-to: type=registry,ref=${{ steps.imagename.outputs.cache }},mode=max,oci-mediatypes=true,compression=zstd,compression-level=7
-          tags: ${{ steps.imagename.outputs.image }}
+          tags: ${{ steps.imagename.outputs.image }}:latest
           provenance: false
 
