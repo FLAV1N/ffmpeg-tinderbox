@@ -27,7 +27,7 @@ jobs:
       - name: Prune old releases
         run: ./util/prunetags.sh
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GHCR_PAT }}
 
   prune_untagged_pkgs:
     if: github.event.schedule == '0 23 27 * *' || github.event.inputs.prune_pkgs == 'true'
@@ -40,7 +40,7 @@ jobs:
       - name: Prune untagged pkgs
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GHCR_PAT }}
           script: |
             // list package versions
             const list_package_versions = await github.request(`GET /user/packages/container/${{ matrix.image_name }}/versions`, {
