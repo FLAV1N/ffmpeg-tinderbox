@@ -88,4 +88,6 @@ ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLC
     DLLTOOL="${FFBUILD_TOOLCHAIN}-dlltool" \
     CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong" \
     CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong" \
-    LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong"
+    LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong" \
+    STAGE_CFLAGS="-fno-semantic-interposition" \
+    STAGE_CXXFLAGS="-fno-semantic-interposition"
