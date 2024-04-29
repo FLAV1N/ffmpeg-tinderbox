@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TWOLAME_REPO="https://github.com/njh/twolame.git"
-TWOLAME_COMMIT="90b694b6125dbe23a346bd5607a7fb63ad2785dc"
+TWOLAME_COMMIT="main"
 
 ffbuild_enabled() {
     return 0

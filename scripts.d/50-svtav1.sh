@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SVTAV1_REPO="https://gitlab.com/AOMediaCodec/SVT-AV1.git"
-SVTAV1_COMMIT="bd9e31f16afb43a176a9ba39e9b04e0a9a12c907"
+SVTAV1_REPO="https://github.com/gianni-rosato/svt-av1-psy"
+SVTAV1_COMMIT="testing"
 
 ffbuild_enabled() {
     [[ $TARGET == win32 ]] && return -1
@@ -14,13 +14,18 @@ ffbuild_dockerbuild() {
 
     mkdir build && cd build
 
-    cmake \
-        -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
+    cmake -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DBUILD_{SHARED_LIBS,TESTING}=OFF \
-        -DBUILD_{APPS,DEC}=OFF \
-        -DENABLE_AVX512=ON \
+        -DBUILD_{DEC,SHARED_LIBS,TESTING,APPS}=OFF \
+        -DSVT_AV1_LTO=ON \
+        -DCMAKE_CXX_FLAGS="-Ofast" \
+        -DCMAKE_C_FLAGS="-Ofast" \
+        -DCMAKE_LD_FLAGS="-Ofast" \
+        -DCMAKE_CXX_FLAGS="-march=znver3" \
+        -DCMAKE_C_FLAGS="-march=znver3" \
+        -DCMAKE_LD_FLAGS="-march=znver3" \
+        -DENABLE_AVX512=OFF \
         -GNinja \
         ..
     ninja -j"$(nproc)"
@@ -30,7 +35,6 @@ ffbuild_dockerbuild() {
 ffbuild_configure() {
     echo --enable-libsvtav1
 }
-
 ffbuild_unconfigure() {
     echo --disable-libsvtav1
 }

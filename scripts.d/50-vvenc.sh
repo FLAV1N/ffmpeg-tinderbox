@@ -1,15 +1,15 @@
 #!/bin/bash
 
-ZLIB_REPO="https://github.com/zlib-ng/zlib-ng.git"
-ZLIB_COMMIT="develop"
+VVENC_REPO="https://github.com/fraunhoferhhi/vvenc.git"
+VVENC_COMMIT="master"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$ZLIB_REPO" "$ZLIB_COMMIT" zlib
-    cd zlib
+    git-mini-clone "$VVENC_REPO" "$VVENC_COMMIT" vvenc
+    cd vvenc
 
     mkdir build && cd build
 
@@ -17,20 +17,16 @@ ffbuild_dockerbuild() {
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DBUILD_SHARED_LIBS=OFF \
-        -DZLIB_COMPAT=ON \
-        -DZLIB{,NG}_ENABLE_TESTS=OFF \
-        -DWITH_GTEST=OFF \
         -GNinja \
         ..
-    ninja -j"$(nproc)"
+    ninja -j$(nproc)
     ninja install
 }
 
 ffbuild_configure() {
-    echo --enable-zlib
+    echo --enable-libvvenc
 }
 
 ffbuild_unconfigure() {
-    echo --disable-zlib
+    echo --disable-libvvenc
 }

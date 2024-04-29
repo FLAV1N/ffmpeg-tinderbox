@@ -1,9 +1,9 @@
-name: Nightly Build
+name: Weekly Build
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 21 * * *' # Runs at 06:00 Tokyo time every day 🕕
+    - cron: '0 9 * * 5' # runs weekly every Friday 6PM Tokyo time
 
 jobs:
   decision_task:
@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win32, win64]
+        target: [win64]
         variant: [nonfree, nonfree-shared]
     steps:
       - name: Checkout
@@ -45,7 +45,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.dodosolsollalasol }}
+          password: ${{ github.token }}
 
       - name: Build ffmpeg
         run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
@@ -61,7 +61,7 @@ jobs:
         with:
           name: ffmpeg-${{ steps.dicitur.outputs.arte_factum }}
           path: artifacts/
-          retention-days: 1
+          retention-days: 5
 
   publish_release:
     name: Publish release

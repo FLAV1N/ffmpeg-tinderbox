@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DAVS2_REPO="https://github.com/pkuvcl/davs2.git"
-DAVS2_COMMIT="b41cf117452e2d73d827f02d3e30aa20f1c721ac"
+DAVS2_COMMIT="master"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1

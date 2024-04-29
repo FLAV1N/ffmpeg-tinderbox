@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OPUS_REPO="https://github.com/xiph/opus.git"
-OPUS_COMMIT="ddbe48383984d56acd9e1ab6a090c54ca6b735a6"
+OPUS_COMMIT="main"
 
 ffbuild_enabled() {
     return 0
@@ -20,6 +20,7 @@ ffbuild_dockerbuild() {
         -DBUILD_{SHARED_LIBS,TESTING}=OFF \
         -DOPUS_BUILD_{PROGRAMS,SHARED_LIBRARY,TESTING}=OFF \
         -DOPUS_FORTIFY_SOURCE=OFF \
+        -CFLAGS="-g -O2 -march=znver3" ../configure \
         -GNinja \
         ..
     ninja -j"$(nproc)"

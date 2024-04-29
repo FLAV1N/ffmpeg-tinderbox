@@ -1,7 +1,7 @@
 #!/bin/bash
 
 XAVS2_REPO="https://github.com/nanake/xavs2.git"
-XAVS2_COMMIT="0e5b4da6750b236ea2df60d72ee21d0e7fa85e32"
+XAVS2_COMMIT="master"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1

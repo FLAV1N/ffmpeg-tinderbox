@@ -6,6 +6,17 @@ For a manual build, follow detailed instructions below:
 
 ##  Prelude
 
+A fork of [ffmpeg-tinderbox](https://github.com/nanake/ffmpeg-tinderbox). Builds nonfree libraries such as libfdk-aac and decklink. While also including gimmick and modified encoders such as:
+
+- [aom-av1-lavish](https://github.com/Clybius/aom-av1-lavish/tree/Endless_Merging) (libaom) "Endless_Merging" branch for psychovisual benefits and sane defaults.
+- [rav1e](https://github.com/Simulping/rav1e) (librav1e) with quietvoid's Dolby Vision patch applied.
+- [SVT-AV1](https://github.com/gianni-rosato/svt-av1-psy) (libsvtav1) fork by Gianni Rosato & Co. for psychovisual goodies, variance modifications, low luma bias, photon noise support, etc.
+- [VVenC](https://github.com/fraunhoferhhi/vvenc) (libvvenc)
+- [VVdeC](https://github.com/fraunhoferhhi/vvdec) (libvvdec)
+- Dolby AC-4 decode support.
+
+Currently, the FFmpeg version being used is release 6.1 because it's the latest stable version that works with the custom VVenC patch, so unless upstream makes the patch always compatible, It's stuck using Fraunhofer's VVenC [wiki](https://github.com/fraunhoferhhi/vvenc/wiki/FFmpeg-Integration) for guidance. 
+
 ***Requirements***
 
 Ensure you have the following tools installed on your system:
