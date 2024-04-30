@@ -41,9 +41,7 @@ RUN <<EOF
         llvm \
         lld \
         rustup \
-        yasm \
-        zlib-devel 
-
+        yasm
     dnf5 clean all
     git config --system user.email "builder@localhost"
     git config --system user.name "Builder"
