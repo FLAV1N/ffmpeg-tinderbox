@@ -8,9 +8,9 @@ For a manual build, follow detailed instructions below:
 
 A fork of [ffmpeg-tinderbox](https://github.com/nanake/ffmpeg-tinderbox). Builds nonfree libraries such as libfdk-aac and decklink. While also including gimmick and modified encoders such as:
 
-- [aom-av1-lavish](https://github.com/Clybius/aom-av1-lavish/tree/Endless_Merging) (libaom) "Endless_Merging" branch for psychovisual benefits and sane defaults.
+- [aom-av1-lavish](https://github.com/Clybius/aom-av1-lavish/tree/Endless_Merging) (libaom) "opmox/mainline-merge" branch for psychovisual benefits and sane defaults.
 - [rav1e](https://github.com/Simulping/rav1e) (librav1e) with quietvoid's Dolby Vision patch applied.
-- [SVT-AV1](https://github.com/gianni-rosato/svt-av1-psy) (libsvtav1) fork by Gianni Rosato & Co. for psychovisual goodies, variance modifications, low luma bias, photon noise support, etc.
+- [SVT-AV1](https://github.com/gianni-rosato/svt-av1-psy) (libsvtav1) fork by Gianni Rosato & Co. "testing" branch for psychovisual goodies, variance modifications, low luma bias, photon noise support, etc.
 - [VVenC](https://github.com/fraunhoferhhi/vvenc) (libvvenc)
 - [VVdeC](https://github.com/fraunhoferhhi/vvdec) (libvvdec)
 - Dolby AC-4 decode support.
