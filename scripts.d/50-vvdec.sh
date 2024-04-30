@@ -1,7 +1,6 @@
 #!/bin/bash
 
 VVDEC_REPO="https://github.com/fraunhoferhhi/vvdec.git"
-VVDEC_COMMIT="master"
 
 ffbuild_enabled() {
     return 0
