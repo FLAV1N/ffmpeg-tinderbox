@@ -47,6 +47,16 @@ RUN <<EOF
     git config --system advice.detachedHead false
 EOF
 
+RUN --mount=src=ct-ng-config,dst=/.config \
+    git clone --filter=blob:none https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && \
+    ./bootstrap && \
+    ./configure --enable-local && \
+    make -j$(nproc) && \
+    cp /.config .config && \
+    ./ct-ng build && \
+    cd / && \
+    rm -rf ct-ng
+
 RUN --mount=src=.,dst=/input <<EOF
     for s in /input/*.sh; do cp $s /usr/bin/$(echo $s | sed -e 's|.*/||' -e 's/\.sh$//'); done
     cp input/cross.meson input/toolchain.cmake /
@@ -67,13 +77,20 @@ RUN <<EOF
         mingw64-libstdc++ \
         mingw64-winpthreads-static
     dnf5 clean all
-    find /usr/*mingw*/* -type f -name "*.dll*" -delete
+    find /opt/ct-ng \
+        -name "*.dll" \
+        -or -name "*.dll.a" \
+        -delete && \
     rm -rf /tmp/* /usr/share/doc/* /var/cache/* /var/lib/dnf/history.* /var/log/* /var/tmp/*
     mkdir /opt/ffbuild
 EOF
 
 ENV FFBUILD_TOOLCHAIN=x86_64-w64-mingw32 \
 FFBUILD_RUST_TARGET=x86_64-pc-windows-gnu
+
+RUN \
+    rustup target add "$FFBUILD_RUST_TARGET" && \
+    echo "[target.$FFBUILD_RUST_TARGET]\nlinker = \"${FFBUILD_TOOLCHAIN}-gcc\"\nar = \"${FFBUILD_TOOLCHAIN}-gcc-ar\"\n" > "$CARGO_HOME"/config.toml
 
 ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLCHAIN}- --arch=amd64 --target-os=mingw32 --compiler-flavors=win64" \
     FFBUILD_CROSS_PREFIX=${FFBUILD_TOOLCHAIN}- \
