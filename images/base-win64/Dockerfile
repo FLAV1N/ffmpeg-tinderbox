@@ -76,7 +76,12 @@ RUN <<EOF
     mkdir /opt/ffbuild
 EOF
 
-ENV FFBUILD_TOOLCHAIN=x86_64-w64-mingw32
+ENV FFBUILD_TOOLCHAIN=x86_64-w64-mingw32 \
+FFBUILD_RUST_TARGET=x86_64-pc-windows-gnu
+
+RUN \
+    rustup target add "$FFBUILD_RUST_TARGET" && \
+    echo "[target.$FFBUILD_RUST_TARGET]\nlinker = \"${FFBUILD_TOOLCHAIN}-gcc\"\nar = \"${FFBUILD_TOOLCHAIN}-gcc-ar\"\n" > "$CARGO_HOME"/config.toml
 
 ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLCHAIN}- --arch=amd64 --target-os=mingw32 --compiler-flavors=win64" \
     FFBUILD_CROSS_PREFIX=${FFBUILD_TOOLCHAIN}- \
