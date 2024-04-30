@@ -21,6 +21,7 @@ ffbuild_dockerbuild() {
     cmake \
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
         -DCMAKE_BUILD_TYPE=Release \
+        -DVVDEC_OPT_TARGET_ARCH=amd64 \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -GNinja \
         $fixarm64 \
