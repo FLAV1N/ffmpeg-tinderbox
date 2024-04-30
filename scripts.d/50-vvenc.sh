@@ -20,6 +20,7 @@ ffbuild_dockerbuild() {
     
     cmake \
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
+        -DVVENC_ENABLE_LINK_TIME_OPT=OFF \
         -DCMAKE_BUILD_TYPE=Release \
         -DVVENC_OPT_TARGET_ARCH=znver3 \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
