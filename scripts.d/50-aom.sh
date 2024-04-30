@@ -15,10 +15,10 @@ ffbuild_dockerbuild() {
     -DCMAKE_C_COMPILER=gcc \
     -DCMAKE_CXX_COMPILER=g++ \
     -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-    -DCMAKE_CXX_FLAGS="-flto -O3 -march=znver3" \
-    -DCMAKE_C_FLAGS="-flto -O3 -march=znver3" \
-    -DCMAKE_C_FLAGS_INIT="-flto=4 -static -static-libgcc -static-libstdc++" \
-    -DCMAKE_EXE_LINKER_FLAGS="-flto -static -static-libgcc -static-libstdc++" \
+    -DCMAKE_CXX_FLAGS="-O3 -march=znver3" \
+    -DCMAKE_C_FLAGS="-O3 -march=znver3" \
+    -DCMAKE_C_FLAGS_INIT="-static -static-libgcc -static-libstdc++" \
+    -DCMAKE_EXE_LINKER_FLAGS="-static -static-libgcc -static-libstdc++" \
     -DBUILD_SHARED_LIBS=OFF \
     -DENABLE_EXAMPLES=NO \
     -DENABLE_TESTS=NO \

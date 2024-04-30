@@ -18,7 +18,7 @@ ffbuild_dockerbuild() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_{DEC,SHARED_LIBS,TESTING,APPS}=OFF \
-        -DSVT_AV1_LTO=ON \
+        -DSVT_AV1_LTO=OFF \
         -DCMAKE_CXX_FLAGS="-Ofast" \
         -DCMAKE_C_FLAGS="-Ofast" \
         -DCMAKE_LD_FLAGS="-Ofast" \
