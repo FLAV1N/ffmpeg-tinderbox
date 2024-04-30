@@ -40,6 +40,7 @@ RUN <<EOF
         clang-tools-extra \
         llvm \
         lld \
+        rustup \
         yasm
     dnf5 clean all
     git config --system user.email "builder@localhost"
