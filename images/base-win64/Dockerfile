@@ -47,16 +47,6 @@ RUN <<EOF
     git config --system advice.detachedHead false
 EOF
 
-RUN --mount=src=ct-ng-config,dst=/.config \
-    git clone --filter=blob:none https://github.com/crosstool-ng/crosstool-ng.git /ct-ng && cd /ct-ng && \
-    ./bootstrap && \
-    ./configure --enable-local && \
-    make -j$(nproc) && \
-    cp /.config .config && \
-    ./ct-ng build && \
-    cd / && \
-    rm -rf ct-ng
-
 RUN --mount=src=.,dst=/input <<EOF
     for s in /input/*.sh; do cp $s /usr/bin/$(echo $s | sed -e 's|.*/||' -e 's/\.sh$//'); done
     cp input/cross.meson input/toolchain.cmake /
