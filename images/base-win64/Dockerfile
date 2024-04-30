@@ -56,23 +56,25 @@ FROM base AS toolchain
 
 RUN <<EOF
     dnf5 install \
-        ucrt64-binutils \
-        ucrt64-crt \
-        ucrt64-filesystem \
-        ucrt64-gcc \
-        ucrt64-gcc-c++ \
-        ucrt64-headers \
-        ucrt64-libgcc \
-        ucrt64-libgomp \
-        ucrt64-libstdc++ \
-        ucrt64-winpthreads-static
+        mingw64-binutils \
+        mingw64-crt \
+        mingw64-filesystem \
+        mingw64-gcc \
+        mingw64-gcc-c++ \
+        mingw64-headers \
+        mingw64-libgcc \
+        mingw64-libgomp \
+        mingw64-libstdc++ \
+        mingw64-winpthreads-static
     dnf5 clean all
     find /usr/*mingw*/* -type f -name "*.dll*" -delete
     rm -rf /tmp/* /usr/share/doc/* /var/cache/* /var/lib/dnf/history.* /var/log/* /var/tmp/*
     mkdir /opt/ffbuild
 EOF
 
-ENV FFBUILD_TOOLCHAIN=x86_64-w64-mingw32ucrt
+ENV FFBUILD_TOOLCHAIN=x86_64-w64-mingw32 \
+FFBUILD_RUST_TARGET=x86_64-pc-windows-gnu
+
 ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLCHAIN}- --arch=amd64 --target-os=mingw32 --compiler-flavors=win64" \
     FFBUILD_CROSS_PREFIX=${FFBUILD_TOOLCHAIN}- \
     FFBUILD_PREFIX=/opt/ffbuild \
