@@ -1,22 +1,16 @@
 #!/bin/bash
 
-ASS_REPO="https://github.com/libass/libass.git"
-ASS_COMMIT="master"
+LC3_REPO="https://github.com/google/liblc3.git"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$ASS_REPO" "$ASS_COMMIT" ass
-    cd ass
+    git-mini-clone "$LC3_REPO" "$LC3_COMMIT" lc3
+    cd lc3
 
     mkdir build && cd build
-
-    cat >crossfile <<eot
-[binaries]
-nasm = 'nasm'
-eot
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
@@ -27,7 +21,6 @@ eot
     if [[ $TARGET == win* ]]; then
         myconf+=(
             --cross-file=/cross.meson
-            --cross-file=crossfile
         )
     else
         echo "Unknown target"
@@ -40,9 +33,9 @@ eot
 }
 
 ffbuild_configure() {
-    echo --enable-libass
+    echo --enable-liblc3
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libass
+    echo --disable-liblc3
 }
