@@ -11,8 +11,6 @@ ffbuild_dockerbuild() {
     git-mini-clone "$LIBPNG_REPO" "$LIBPNG_COMMIT" libpng
     cd libpng
 
-    mkdir build && cd build
-
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         --disable-shared
