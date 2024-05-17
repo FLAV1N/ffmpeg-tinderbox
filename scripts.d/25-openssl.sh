@@ -12,7 +12,6 @@ ffbuild_dockerbuild() {
     git-mini-clone "$OPENSSL_REPO" "$OPENSSL_COMMIT" openssl
     cd openssl
 
-    mkdir build && cd build
     local myconf=(
         threads
         zlib
