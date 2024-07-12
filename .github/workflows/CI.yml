@@ -10,7 +10,7 @@ on:
 jobs:
   build_targets:
     name: Build target-variant image
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -41,11 +41,11 @@ jobs:
         id: imagename
         run: |
           IMG="ghcr.io/${GITHUB_ACTOR,,}/${{ matrix.target }}-${{ matrix.variant }}"
-          echo "image=${IMG/ /-}:latest" >> $GITHUB_OUTPUT
-          echo "cache=${IMG/ /-}:cache" >> $GITHUB_OUTPUT
+          echo "image=${IMG/ /-}:latest" >> "$GITHUB_OUTPUT"
+          echo "cache=${IMG/ /-}:cache" >> "$GITHUB_OUTPUT"
 
       - name: Build variant image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           outputs: type=registry,oci-mediatypes=true,compression=zstd,compression-level=7
@@ -54,10 +54,25 @@ jobs:
           tags: ${{ steps.imagename.outputs.image }}
           provenance: false
 
+  ffmpeg_latest:
+    name: Get FFmpeg latest commit
+    needs: build_targets
+    runs-on: ubuntu-24.04
+    outputs:
+      commit: ${{ steps.sha.outputs.ffmpeg_commit }}
+    steps:
+      - name: Get FFmpeg latest commit
+        id: sha
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(gh api repos/FFmpeg/FFmpeg/commits/master --jq '.sha')
+          echo "ffmpeg_commit=${sha}" >> "$GITHUB_OUTPUT"
+
   build_ffmpeg:
     name: Build ffmpeg
-    needs: build_targets
-    runs-on: ubuntu-22.04
+    needs: ffmpeg_latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -76,16 +91,18 @@ jobs:
 
       - name: Build ffmpeg
         run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
+        env:
+          FFMPEG_COMMIT: ${{ needs.ffmpeg_latest.outputs.commit }}
 
-      - name: Artifact name
-        id: dicitur
+      - name: Replace spaces in artifact name
+        id: artifact
         run: |
           REF="${{ matrix.target }}-${{ matrix.variant }}"
-          echo "arte_factum=${REF// /-}" >> $GITHUB_OUTPUT
+          echo "name=${REF// /-}" >> "$GITHUB_OUTPUT"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ffmpeg-${{ steps.dicitur.outputs.arte_factum }}
+          name: ffmpeg-${{ steps.artifact.outputs.name }}
           path: artifacts/
           retention-days: 1

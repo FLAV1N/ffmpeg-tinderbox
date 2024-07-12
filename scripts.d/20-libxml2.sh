@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBXML2_REPO="https://github.com/GNOME/libxml2.git"
-LIBXML2_COMMIT="20b0bd9800ae83cbd70f4407ce67058164e16227"
+LIBXML2_COMMIT="4fec0889e0cd406710f96f97a566495cb8178f3b"
 
 ffbuild_enabled() {
     return 0
@@ -18,7 +18,7 @@ ffbuild_dockerbuild() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF \
-        -DLIBXML2_WITH_{CATALOG,DEBUG,HTML,HTTP,ICONV,LZMA,PROGRAMS,PYTHON,TESTS,ZLIB}=OFF \
+        -DLIBXML2_WITH_{CATALOG,DEBUG,HTML,HTTP,LZMA,PROGRAMS,PYTHON,TESTS,ZLIB}=OFF \
         -GNinja \
         ..
     ninja -j"$(nproc)"

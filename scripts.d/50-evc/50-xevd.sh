@@ -1,15 +1,16 @@
 #!/bin/bash
 
-ZLIB_REPO="https://github.com/zlib-ng/zlib-ng.git"
-ZLIB_COMMIT="d54e3769be0c522015b784eca2af258b1c026107"
+XEVD_REPO="https://github.com/mpeg5/xevd.git"
+XEVD_COMMIT="41db32ca3283eb8ac175465edb6b4b3d78e8b9c9"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$ZLIB_REPO" "$ZLIB_COMMIT" zlib
-    cd zlib
+    git clone --filter=tree:0 --branch=master --single-branch "$XEVD_REPO" xevd
+    cd xevd
+    git checkout "$XEVD_COMMIT"
 
     mkdir build && cd build
 
@@ -18,19 +19,19 @@ ffbuild_dockerbuild() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF \
-        -DZLIB_COMPAT=ON \
-        -DZLIB{,NG}_ENABLE_TESTS=OFF \
-        -DWITH_GTEST=OFF \
         -GNinja \
         ..
     ninja -j"$(nproc)"
     ninja install
+
+    rm -f "$FFBUILD_PREFIX"/lib/libxevd.dll.a
+    sed -i 's/libdir=.*/&\/xevd/' "$FFBUILD_PREFIX"/lib/pkgconfig/xevd.pc
 }
 
 ffbuild_configure() {
-    echo --enable-zlib
+    echo --enable-libxevd
 }
 
 ffbuild_unconfigure() {
-    echo --disable-zlib
+    echo --disable-libxevd
 }

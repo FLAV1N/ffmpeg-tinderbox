@@ -1,15 +1,15 @@
 #!/bin/bash
 
-BROTLI_REPO="https://github.com/google/brotli.git"
-BROTLI_COMMIT="a528bce9f65be7515a47cec2cbdcd8023822b99b"
+VVENC_REPO="https://github.com/fraunhoferhhi/vvenc.git"
+VVENC_COMMIT="d57c73d36c10d01f5fe240d39d1c5eb109f3746a"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$BROTLI_REPO" "$BROTLI_COMMIT" brotli
-    cd brotli
+    git-mini-clone "$VVENC_REPO" "$VVENC_COMMIT" vvenc
+    cd vvenc
 
     mkdir build && cd build
 
@@ -18,11 +18,17 @@ ffbuild_dockerbuild() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF \
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-        -DBROTLI_BUILD_TOOLS=OFF \
-        -DBROTLI_DISABLE_TESTS=ON \
+        -DVVENC_ENABLE_LINK_TIME_OPT=OFF \
         -GNinja \
         ..
     ninja -j"$(nproc)"
     ninja install
+}
+
+ffbuild_configure() {
+    echo --enable-libvvenc
+}
+
+ffbuild_unconfigure() {
+    echo --disable-libvvenc
 }

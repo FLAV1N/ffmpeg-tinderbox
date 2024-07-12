@@ -1,15 +1,16 @@
 #!/bin/bash
 
-ZLIB_REPO="https://github.com/zlib-ng/zlib-ng.git"
-ZLIB_COMMIT="d54e3769be0c522015b784eca2af258b1c026107"
+XEVE_REPO="https://github.com/mpeg5/xeve.git"
+XEVE_COMMIT="3bcbe24d9b0a58b559998b57d1c6af825d2d59c8"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$ZLIB_REPO" "$ZLIB_COMMIT" zlib
-    cd zlib
+    git clone --filter=tree:0 --branch=master --single-branch "$XEVE_REPO" xeve
+    cd xeve
+    git checkout "$XEVE_COMMIT"
 
     mkdir build && cd build
 
@@ -18,19 +19,19 @@ ffbuild_dockerbuild() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF \
-        -DZLIB_COMPAT=ON \
-        -DZLIB{,NG}_ENABLE_TESTS=OFF \
-        -DWITH_GTEST=OFF \
         -GNinja \
         ..
     ninja -j"$(nproc)"
     ninja install
+
+    rm -f "$FFBUILD_PREFIX"/lib/libxeve.dll.a
+    sed -i 's/libdir=.*/&\/xeve/' "$FFBUILD_PREFIX"/lib/pkgconfig/xeve.pc
 }
 
 ffbuild_configure() {
-    echo --enable-zlib
+    echo --enable-libxeve
 }
 
 ffbuild_unconfigure() {
-    echo --disable-zlib
+    echo --disable-libxeve
 }

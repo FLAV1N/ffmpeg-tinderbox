@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ASS_REPO="https://github.com/libass/libass.git"
-ASS_COMMIT="342a0d2e767c33ff28a39794813294c67c9e7312"
+ASS_COMMIT="6e83137cdbaf4006439d526fef902e123129707b"
 
 ffbuild_enabled() {
     return 0
@@ -13,11 +13,6 @@ ffbuild_dockerbuild() {
 
     mkdir build && cd build
 
-    cat >crossfile <<eot
-[binaries]
-nasm = 'nasm'
-eot
-
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         --buildtype=release
@@ -27,7 +22,6 @@ eot
     if [[ $TARGET == win* ]]; then
         myconf+=(
             --cross-file=/cross.meson
-            --cross-file=crossfile
         )
     else
         echo "Unknown target"

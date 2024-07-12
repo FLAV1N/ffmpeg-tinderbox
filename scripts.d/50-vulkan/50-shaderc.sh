@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SHADERC_REPO="https://github.com/google/shaderc.git"
-SHADERC_COMMIT="9a658e242ad4d1a4b3491383c1c58c780e3c01ff"
+SHADERC_COMMIT="5d0f6ed6e46d3c0ccd23151c6a1486c2ec90c037"
 
 ffbuild_enabled() {
     return 0
@@ -20,7 +20,7 @@ ffbuild_dockerbuild() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF \
-        -DENABLE_{CTEST,GLSLANG_BINARIES}=OFF \
+        -DENABLE_GLSLANG_BINARIES=OFF \
         -DSHADERC_ENABLE_WERROR_COMPILE=OFF \
         -DSHADERC_SKIP_{COPYRIGHT_CHECK,EXAMPLES,TESTS}=ON \
         -DSPIRV_{TOOLS_BUILD_STATIC,SKIP_EXECUTABLES}=ON \

@@ -46,17 +46,7 @@ EOF
 FROM base AS toolchain
 
 RUN <<EOF
-    dnf5 install \
-        mingw32-binutils \
-        mingw32-crt \
-        mingw32-filesystem \
-        mingw32-gcc \
-        mingw32-gcc-c++ \
-        mingw32-headers \
-        mingw32-libgcc \
-        mingw32-libgomp \
-        mingw32-libstdc++ \
-        mingw32-winpthreads-static
+    dnf5 install mingw32-{gcc{,-c++},libgomp}
     dnf5 clean all
     find /usr/*mingw*/* -type f -name "*.dll*" -delete
     rm -rf /tmp/* /usr/share/doc/* /var/cache/* /var/lib/dnf/history.* /var/log/* /var/tmp/*
@@ -77,6 +67,6 @@ ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLC
     RANLIB="${FFBUILD_TOOLCHAIN}-gcc-ranlib" \
     NM="${FFBUILD_TOOLCHAIN}-gcc-nm" \
     DLLTOOL="${FFBUILD_TOOLCHAIN}-dlltool" \
-    CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong" \
-    CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O2 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong" \
-    LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O2 -pipe -fstack-protector-strong"
+    CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O3 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fno-semantic-interposition" \
+    CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O3 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fno-semantic-interposition" \
+    LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O3 -pipe -fstack-protector-strong"

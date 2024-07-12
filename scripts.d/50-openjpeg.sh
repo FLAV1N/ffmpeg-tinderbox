@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OPENJPEG_REPO="https://github.com/uclouvain/openjpeg.git"
-OPENJPEG_COMMIT="e8b9d9274a0aee998402d967f65dadd919c31eca"
+OPENJPEG_COMMIT="d5544b3fae0056f57467a9f1ef8e8f05766f0d0c"
 
 ffbuild_enabled() {
     return 0
@@ -17,7 +17,6 @@ ffbuild_dockerbuild() {
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DBUILD_PKGCONFIG_FILES=ON \
         -DBUILD_{SHARED_LIBS,CODEC,TESTING}=OFF \
         -DWITH_ASTYLE=OFF \
         -GNinja \

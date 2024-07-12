@@ -2,15 +2,16 @@
 
 # https://git.savannah.gnu.org/gitweb/?p=libiconv.git
 LIBICONV_REPO="https://git.savannah.gnu.org/git/libiconv.git"
-LIBICONV_COMMIT="17a9a0721831bc747cd2ed6d15a111ed4c7dbcb0"
+LIBICONV_COMMIT="5bddef718d25e6b4f33b9382d58d1251fe91472d"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LIBICONV_REPO" "$LIBICONV_COMMIT" libiconv
+    git clone "$LIBICONV_REPO" libiconv
     cd libiconv
+    git checkout "$LIBICONV_COMMIT"
 
     ./autopull.sh --one-time
 

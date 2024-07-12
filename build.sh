@@ -22,8 +22,6 @@ for addin in ${ADDINS[*]}; do
     source "addins/${addin}.sh"
 done
 
-export FFBUILD_PREFIX="$(docker run --rm "$IMAGE" bash -c 'echo $FFBUILD_PREFIX')"
-
 for script in scripts.d/**/*.sh; do
     FF_CONFIGURE+=" $(get_output $script configure)"
     FF_CFLAGS+=" $(get_output $script cflags)"
@@ -63,6 +61,10 @@ cat <<EOF >"$BUILD_SCRIPT"
 
     git clone --filter=tree:0 --branch='$GIT_BRANCH' --single-branch '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
+
+    if [[ -n "$GITHUB_ACTIONS" ]]; then
+        git checkout "$FFMPEG_COMMIT"
+    fi
 
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE \
         --extra-cflags="$FF_CFLAGS" --extra-cxxflags="$FF_CXXFLAGS" \
