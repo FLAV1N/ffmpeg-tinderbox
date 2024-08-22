@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win32, win64]
+        target: [win64]
         variant: [nonfree]
     steps:
       - name: Checkout
@@ -31,8 +31,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.dodosolsollalasol }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
 
       - name: Generate Dockerfile
         run: ./generate.sh ${{ matrix.target }} ${{ matrix.variant }}
@@ -76,7 +76,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win32, win64]
+        target: [win64]
         variant: [nonfree, nonfree-shared]
     steps:
       - name: Checkout
@@ -86,8 +86,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.dodosolsollalasol }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
 
       - name: Build ffmpeg
         run: ./build.sh ${{ matrix.target }} ${{ matrix.variant }}
@@ -105,4 +105,4 @@ jobs:
         with:
           name: ffmpeg-${{ steps.artifact.outputs.name }}
           path: artifacts/
-          retention-days: 1
+          retention-days: 7
