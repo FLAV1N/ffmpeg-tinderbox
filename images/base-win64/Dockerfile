@@ -1,5 +1,9 @@
 # syntax=docker/dockerfile:latest
-FROM ghcr.io/nanake/fedora:rawhide AS base
+FROM fedora:rawhide AS base
+
+RUN <<EOF
+    dnf install dnf5 dnf5-plugins --assumeyes
+EOF
 
 RUN <<EOF
     dnf5 config-manager setopt assumeyes=True install_weak_deps=False max_parallel_downloads=20
@@ -31,6 +35,10 @@ RUN <<EOF
         wget2-wget \
         which \
         xxd \
+        clang-tools-extra \
+        llvm \
+        lld \
+        rustup \
         yasm
     dnf5 clean all
     git config --system user.email "builder@localhost"
@@ -67,6 +75,6 @@ ENV FFBUILD_TARGET_FLAGS="--pkg-config=pkg-config --cross-prefix=${FFBUILD_TOOLC
     RANLIB="${FFBUILD_TOOLCHAIN}-gcc-ranlib" \
     NM="${FFBUILD_TOOLCHAIN}-gcc-nm" \
     DLLTOOL="${FFBUILD_TOOLCHAIN}-dlltool" \
-    CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O3 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fno-semantic-interposition" \
-    CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O3 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fno-semantic-interposition" \
+    CFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O3 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fno-semantic-interposition -march=znver3" \
+    CXXFLAGS="-static-libgcc -static-libstdc++ -I/opt/ffbuild/include -O3 -pipe -D_FORTIFY_SOURCE=3 -fstack-protector-strong -fno-semantic-interposition -march=znver3" \
     LDFLAGS="-static-libgcc -static-libstdc++ -L/opt/ffbuild/lib -O3 -pipe -fstack-protector-strong"
