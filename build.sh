@@ -36,12 +36,9 @@ FF_CXXFLAGS="$(xargs <<< "$FF_CXXFLAGS")"
 FF_LDFLAGS="$(xargs <<< "$FF_LDFLAGS")"
 FF_LIBS="$(xargs <<< "$FF_LIBS")"
 
-TESTFILE="uidtestfile"
-rm -f "$TESTFILE"
-docker run --rm -v "$PWD:/uidtestdir" "$IMAGE" touch "/uidtestdir/$TESTFILE"
-DOCKERUID="$(stat -c "%u" "$TESTFILE")"
-rm -f "$TESTFILE"
-[[ "$DOCKERUID" != "$(id -u)" ]] && UIDARGS=( -u "$(id -u):$(id -g)" ) || UIDARGS=()
+if ! docker info --format '{{.SecurityOptions}}' | grep -qE '(^|\s)name=rootless($|\s)'; then
+    UIDARGS=(-u "$(id -u):$(id -g)")
+fi
 
 rm -rf ffbuild
 mkdir ffbuild
@@ -66,10 +63,6 @@ cat <<EOF >"$BUILD_SCRIPT"
         git checkout "$FFMPEG_COMMIT"
     fi
 
-    if git apply --check /patches/*.patch 2> /dev/null; then
-        git apply /patches/*.patch
-    fi
-
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS $FF_CONFIGURE \
         --extra-cflags="$FF_CFLAGS" --extra-cxxflags="$FF_CXXFLAGS" \
         --extra-ldflags="$FF_LDFLAGS" --extra-libs="$FF_LIBS"
@@ -79,7 +72,7 @@ EOF
 
 [[ -t 1 ]] && TTY_ARG="-t" || TTY_ARG=""
 
-docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild -v "$PWD/patches/ffmpeg":/patches -v "$BUILD_SCRIPT":/build.sh "$IMAGE" bash /build.sh
+docker run --rm -i $TTY_ARG "${UIDARGS[@]}" -v "$PWD/ffbuild":/ffbuild -v "$BUILD_SCRIPT":/build.sh "$IMAGE" bash /build.sh
 
 mkdir -p artifacts
 ARTIFACTS_PATH="$PWD/artifacts"
