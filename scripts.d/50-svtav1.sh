@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SVTAV1_REPO="https://gitlab.com/AOMediaCodec/SVT-AV1.git"
-SVTAV1_COMMIT="b27d4729b7333b5d1e5aec26656e5f27339ceeee"
+SVTAV1_COMMIT="63c95718d14d03ef800b70ba35b875a5df9d4ac5"
 
 ffbuild_enabled() {
     [[ $TARGET == win32 ]] && return -1
@@ -20,6 +20,7 @@ ffbuild_dockerbuild() {
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_{APPS,SHARED_LIBS,TESTING}=OFF \
         -DENABLE_AVX512=ON \
+        -DSVT_AV1_LTO=OFF \
         -GNinja \
         ..
     ninja -j"$(nproc)"

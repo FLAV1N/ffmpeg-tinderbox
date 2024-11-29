@@ -1,19 +1,22 @@
 #!/bin/bash
 
 # https://git.savannah.gnu.org/gitweb/?p=libiconv.git
-LIBICONV_REPO="https://git.savannah.gnu.org/git/libiconv.git"
-LIBICONV_COMMIT="0d94621c1e182f5a13a9504523afcb01ec546b37"
+LIBICONV_REPO="https://github.com/nanake/libiconv.git"
+LIBICONV_COMMIT="e5ef1792008f7f8db80bf017f118d5ba65899ae4"
+
+GNULIB_REPO="https://github.com/coreutils/gnulib.git"
+GNULIB_COMMIT="10197d9c2c7d55c3b4eb999c7670cf8ec7d14c17"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git clone "$LIBICONV_REPO" libiconv
+    git clone --filter=tree:0 --branch=master --single-branch "$LIBICONV_REPO" libiconv
     cd libiconv
     git checkout "$LIBICONV_COMMIT"
 
-    ./autopull.sh --one-time
+    git-mini-clone "$GNULIB_REPO" "$GNULIB_COMMIT" gnulib
 
     unset CC CFLAGS
 
