@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SDL_SRC="https://github.com/libsdl-org/SDL/releases/download/release-2.30.9/SDL2-devel-2.30.9-mingw.tar.gz"
+SDL_SRC="https://github.com/libsdl-org/SDL/releases/download/release-2.30.10/SDL2-devel-2.30.10-mingw.tar.gz"
 
 ffbuild_enabled() {
     return 0
@@ -23,7 +23,10 @@ ffbuild_dockerbuild() {
     cp lib/libSDL2.a "$FFBUILD_PREFIX"/lib
     cp lib/pkgconfig/sdl2.pc "$FFBUILD_PREFIX"/lib/pkgconfig
 
-    sed -ri -e "s|^prefix=.*|prefix=${FFBUILD_PREFIX}|" \
+    sed -ri \
+        -e "s|^prefix=.*|prefix=${FFBUILD_PREFIX}|" \
+        -e "s|^libdir=.*|libdir=\${prefix}/lib|" \
+        -e "s|^includedir=.*|includedir=\${prefix}/include|" \
         -e 's/ -mwindows//g' \
         -e 's/ -lSDL2main//g' \
         -e 's/ -Dmain=SDL_main//g' \

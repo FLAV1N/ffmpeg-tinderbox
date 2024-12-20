@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SHADERC_REPO="https://github.com/google/shaderc.git"
-SHADERC_COMMIT="ddac450a36a3be28a2c2173f26703249dd83cfdf"
+SHADERC_COMMIT="e639dbc7aba483e101417cd25f7c70147401a143"
 
 ffbuild_enabled() {
     return 0
@@ -10,8 +10,6 @@ ffbuild_enabled() {
 ffbuild_dockerbuild() {
     git-mini-clone "$SHADERC_REPO" "$SHADERC_COMMIT" shaderc
     cd shaderc
-
-    sed -i 's/d0e67c58134377f065a509845ca6b7d463f5b487/9c644fcb5b9a1a9c975c50a790fd14c5451292b0/' DEPS
 
     ./utils/git-sync-deps
 

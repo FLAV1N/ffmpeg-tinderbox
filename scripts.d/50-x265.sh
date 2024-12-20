@@ -1,7 +1,7 @@
 #!/bin/bash
 
 X265_REPO="https://bitbucket.org/multicoreware/x265_git.git"
-X265_COMMIT="7c86fe5148337138de73569fe3a775b8193fb499"
+X265_COMMIT="fa2770934b8f3d88aa866c77f27cb63f69a9ed39"
 
 ffbuild_enabled() {
     [[ $VARIANT == lgpl* ]] && return -1
@@ -17,6 +17,7 @@ ffbuild_dockerbuild() {
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX"
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN"
         -DCMAKE_BUILD_TYPE=Release
+        -DENABLE_ALPHA=ON
         -DENABLE_{SHARED,CLI}"=OFF"
         -Wno-dev
         -GNinja

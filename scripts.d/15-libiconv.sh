@@ -2,10 +2,10 @@
 
 # https://git.savannah.gnu.org/gitweb/?p=libiconv.git
 LIBICONV_REPO="https://github.com/nanake/libiconv.git"
-LIBICONV_COMMIT="e5ef1792008f7f8db80bf017f118d5ba65899ae4"
+LIBICONV_COMMIT="ed5a57cfedda75a6abbe4d0fb89a6f7b832f073e"
 
 GNULIB_REPO="https://github.com/coreutils/gnulib.git"
-GNULIB_COMMIT="10197d9c2c7d55c3b4eb999c7670cf8ec7d14c17"
+GNULIB_COMMIT="39d328338895f4fd219eb7dcf2cc652daf4e1fdd"
 
 ffbuild_enabled() {
     return 0
@@ -35,6 +35,9 @@ ffbuild_dockerbuild() {
         echo "Unknown target"
         return -1
     fi
+
+    # FIXME: Autogen encountered an error after upgrading to automake-1.17-1.fc42
+    sed -i 's/aclocal-1.16/aclocal/' libcharset/Makefile.devel
 
     ./autogen.sh
     ./configure "${myconf[@]}"
