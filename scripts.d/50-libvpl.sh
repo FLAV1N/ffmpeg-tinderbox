@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBVPL_REPO="https://github.com/intel/libvpl.git"
-LIBVPL_COMMIT="5f6bd8a1e753c8f63a3fd8b36894d6968b808a6d"
+LIBVPL_COMMIT="80ea0a5ebd25743c1cfe973e803245ba67d53b20"
 
 ffbuild_enabled() {
     return 0
@@ -18,13 +18,16 @@ ffbuild_dockerbuild() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DCMAKE_INSTALL_LIBDIR=lib \
-        -DBUILD_{EXPERIMENTAL,SHARED_LIBS,TESTS}=OFF \
+        -DBUILD_{EXAMPLES,EXPERIMENTAL,SHARED_LIBS,TESTS}=OFF \
+        -DINSTALL_EXAMPLES=OFF \
         -GNinja \
         ..
     ninja -j"$(nproc)"
     ninja install
 
     rm -rf "$FFBUILD_PREFIX"/{etc/vpl,share/vpl}
+
+    echo "Libs.private: -lstdc++" >> "$FFBUILD_PREFIX"/lib/pkgconfig/vpl.pc
 }
 
 ffbuild_configure() {

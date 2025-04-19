@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ASS_REPO="https://github.com/libass/libass.git"
-ASS_COMMIT="7d8e335b094f00c57fb557b01e93b60a17e63434"
+ASS_COMMIT="695509365f152bd28720a0c0e036d46836ee9345"
 
 ffbuild_enabled() {
     return 0
@@ -17,6 +17,7 @@ ffbuild_dockerbuild() {
         --prefix="$FFBUILD_PREFIX"
         --buildtype=release
         -Ddefault_library=static
+        -D{checkasm,compare,fuzz,profile,test}"=disabled"
     )
 
     if [[ $TARGET == win* ]]; then

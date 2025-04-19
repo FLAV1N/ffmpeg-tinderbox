@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LCMS_REPO="https://github.com/mm2/Little-CMS.git"
-LCMS_COMMIT="91abcceaffb0d0921f208381ab2b60fee59de79c"
+LCMS_COMMIT="fbfa67a5755e7b3743bfd1bac5b958fc8609f6ba"
 
 ffbuild_enabled() {
     return 0
@@ -18,6 +18,7 @@ ffbuild_dockerbuild() {
         --buildtype=release
         -Ddefault_library=static
         -D{fastfloat,threaded}"=true"
+        -Dtests=disabled
     )
 
     if [[ $TARGET == win* ]]; then
