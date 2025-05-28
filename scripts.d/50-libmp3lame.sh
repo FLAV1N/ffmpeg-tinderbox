@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LAME_REPO="https://github.com/nanake/lame.git"
-LAME_COMMIT="00747fa150a63f11d03c611b8cf1dacf972f03bd"
+LAME_COMMIT="6e03e89e51b307567bcb07d6c17a13aa3bc85144"
 
 
 ffbuild_enabled() {
@@ -12,7 +12,7 @@ ffbuild_dockerbuild() {
     git-mini-clone "$LAME_REPO" "$LAME_COMMIT" lame
     cd lame
 
-    autoreconf -i
+    autoreconf -fvi -I /usr/share/gettext/m4
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"

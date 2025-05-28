@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FREETYPE_REPO="https://github.com/freetype/freetype.git"
-FREETYPE_COMMIT="9a394e2dd1a5af423ef9a3430aeeaddeb772949e"
+FREETYPE_COMMIT="5987a9f51d7002f7ca375a34c2b857841d82a91c"
 
 ffbuild_enabled() {
     return 0
