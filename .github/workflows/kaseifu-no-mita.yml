@@ -42,4 +42,4 @@ jobs:
         with:
           delete-untagged: true
           packages: ${{ matrix.image_name }}
-          token: ${{ secrets.dodosolsollalasol }}
+          token: ${{ secrets.GHCR_PAT }}
