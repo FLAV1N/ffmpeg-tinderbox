@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VORBIS_REPO="https://github.com/xiph/vorbis.git"
-VORBIS_COMMIT="84c023699cdf023a32fa4ded32019f194afcdad0"
+VORBIS_COMMIT="2d79800b6751dddd4b8b4ad50832faa5ae2a00d9"
 
 ffbuild_enabled() {
     return 0
@@ -17,7 +17,6 @@ ffbuild_dockerbuild() {
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
         -DBUILD_{SHARED_LIBS,TESTING}=OFF \
         -GNinja \
         ..

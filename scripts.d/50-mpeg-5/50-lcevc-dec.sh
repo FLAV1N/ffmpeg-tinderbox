@@ -1,7 +1,8 @@
 #!/bin/bash
 
-LIBFDK_AAC_REPO="https://github.com/mstorsjo/fdk-aac.git"
-LIBFDK_AAC_COMMIT="d8e6b1a3aa606c450241632b64b703f21ea31ce3"
+LCEVCDEC_REPO="https://github.com/v-novaltd/LCEVCdec.git"
+LCEVCDEC_COMMIT="4.0.4"
+LCEVCDEC_TAGFILTER="4.0.*"
 
 ffbuild_enabled() {
     [[ $VARIANT == *nonfree* ]] || return -1
@@ -9,8 +10,8 @@ ffbuild_enabled() {
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$LIBFDK_AAC_REPO" "$LIBFDK_AAC_COMMIT" libfdk-aac
-    cd libfdk-aac
+    git clone --filter=tree:0 $LCEVCDEC_REPO lcevc && cd lcevc
+    git checkout $LCEVCDEC_COMMIT
 
     mkdir build && cd build
 
@@ -19,17 +20,19 @@ ffbuild_dockerbuild() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF \
-        -DBUILD_PROGRAMS=OFF \
+        -DVN_SDK_{METRICS,PIPELINE_LEGACY,SAMPLE_SOURCE,TRACING}=OFF \
+        -DPC_LIBS_PRIVATE="Libs.private: -lstdc++" \
         -GNinja \
         ..
+
     ninja -j"$(nproc)"
     ninja install
 }
 
 ffbuild_configure() {
-    echo --enable-libfdk-aac
+    echo --enable-liblcevc-dec
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libfdk-aac
+    echo --disable-liblcevc-dec
 }

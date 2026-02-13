@@ -1,7 +1,7 @@
 #!/bin/bash
 
 JXL_REPO="https://github.com/libjxl/libjxl.git"
-JXL_COMMIT="0c63e0b25f95ca76a27af73f6955db4443bdfd73"
+JXL_COMMIT="83c22446807eeaa1158c015efe76c8406fcb8e8f"
 
 ffbuild_enabled() {
     return 0
@@ -29,7 +29,7 @@ ffbuild_dockerbuild() {
         -DBUILD_{SHARED_LIBS,TESTING}=OFF \
         -DJPEGXL_BUNDLE_LIBPNG=OFF \
         -DJPEGXL_ENABLE_{BENCHMARK,DEVTOOLS,DOXYGEN,EXAMPLES,JNI,JPEGLI,MANPAGES,PLUGINS,SJPEG,SKCMS,TOOLS,VIEWERS}=OFF \
-        -DJPEGXL_ENABLE_AVX512{,_ZEN4}=ON \
+        -DJPEGXL_ENABLE_HWY_AVX3{,_SPR,_ZEN4}=ON \
         -DJPEGXL_FORCE_SYSTEM_{BROTLI,LCMS2}=ON \
         -GNinja \
         ..

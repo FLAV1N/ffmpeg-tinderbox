@@ -1,15 +1,15 @@
 #!/bin/bash
 
-OPUS_REPO="https://github.com/xiph/opus.git"
-OPUS_COMMIT="a3f0ec02b34281c38aefdaf4bbbd5787ad641d62"
+FREETYPE_REPO="https://github.com/freetype/freetype.git"
+FREETYPE_COMMIT="28407bc8cd1a3da43df7b11c40bc5c24b9883ac6"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$OPUS_REPO" "$OPUS_COMMIT" opus
-    cd opus
+    git-mini-clone "$FREETYPE_REPO" "$FREETYPE_COMMIT" freetype
+    cd freetype
 
     mkdir build && cd build
 
@@ -17,9 +17,8 @@ ffbuild_dockerbuild() {
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DBUILD_{SHARED_LIBS,TESTING}=OFF \
-        -DOPUS_BUILD_{PROGRAMS,SHARED_LIBRARY,TESTING}=OFF \
-        -DOPUS_FORTIFY_SOURCE=OFF \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DFT_REQUIRE_ZLIB=ON \
         -GNinja \
         ..
     ninja -j"$(nproc)"
@@ -27,9 +26,9 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-libopus
+    echo --enable-libfreetype
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libopus
+    echo --disable-libfreetype
 }

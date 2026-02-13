@@ -1,7 +1,7 @@
 #!/bin/bash
 
 OPENAPV_REPO="https://github.com/AcademySoftwareFoundation/openapv.git"
-OPENAPV_COMMIT="6b0c7f1ad4451ba33a8620c44964762320f4d1c9"
+OPENAPV_COMMIT="a046925389820db77b3fa7b86171d66de25c817b"
 
 ffbuild_enabled() {
     return 0
@@ -15,9 +15,6 @@ ffbuild_dockerbuild() {
     echo > app/CMakeLists.txt
 
     mkdir build && cd build
-
-    # 💥 symbol collision with libxeve
-    export CFLAGS="$CFLAGS -Dthreadsafe_assign=oapv_threadsafe_assign"
 
     cmake \
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \

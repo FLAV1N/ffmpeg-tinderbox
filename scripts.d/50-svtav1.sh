@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SVTAV1_REPO="https://gitlab.com/AOMediaCodec/SVT-AV1.git"
-SVTAV1_COMMIT="b5beb68cb2acb58ee441caa9ae8c3107d11f485f"
+SVTAV1_COMMIT="4ae9272b588a05ee6e77a43e8dfdac05f54c4ff0"
 
 ffbuild_enabled() {
     [[ $TARGET == win32 ]] && return -1
@@ -13,6 +13,10 @@ ffbuild_dockerbuild() {
     cd svtav1
 
     mkdir build && cd build
+
+    # 💥 Resolve svt_log symbol collision caused by commit
+    # https://gitlab.com/AOMediaCodec/SVT-AV1/-/commit/d8aab4190d538664227e5345c09c3dde828a6caa
+    export CFLAGS="$CFLAGS -Dsvt_log=svt_log_internal"
 
     cmake \
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \

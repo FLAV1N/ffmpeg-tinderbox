@@ -1,7 +1,7 @@
 #!/bin/bash
 
 THEORA_REPO="https://github.com/xiph/theora.git"
-THEORA_COMMIT="23161c4a63fd9f9d09b9e972f95def2d56c777af"
+THEORA_COMMIT="edfba372beb02ff70a1e2797d8cf561c242d0e0b"
 
 ffbuild_enabled() {
     return 0
@@ -27,6 +27,14 @@ ffbuild_dockerbuild() {
     else
         echo "Unknown target"
         return -1
+    fi
+
+    # https://gitlab.xiph.org/xiph/theora/-/issues/2343
+    # https://code.ffmpeg.org/FFmpeg/FFmpeg/issues/20185
+    if [[ $TARGET == win64 ]]; then
+        myconf+=(
+            --disable-asm
+        )
     fi
 
     ./configure "${myconf[@]}"

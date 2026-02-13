@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CHROMAPRINT_REPO="https://github.com/acoustid/chromaprint.git"
-CHROMAPRINT_COMMIT="ac31acc8431defbb134ec54eb11daf9146c74170"
+CHROMAPRINT_COMMIT="6b13ce3a81ae931e7477c4856a86bece99157cd8"
 
 ffbuild_enabled() {
     return 0
@@ -17,7 +17,6 @@ ffbuild_dockerbuild() {
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
-        -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
         -DBUILD_{SHARED_LIBS,TESTS,TOOLS}=OFF \
         -DFFT_LIB=fftw3 \
         -GNinja \

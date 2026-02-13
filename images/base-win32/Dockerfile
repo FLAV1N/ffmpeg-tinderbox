@@ -12,8 +12,9 @@ RUN <<EOF
         gcc \
         gcc-c++ \
         gettext-devel \
-        git \
+        git-core \
         glibc-devel \
+        glslc \
         gperf \
         libtool \
         meson \
@@ -22,6 +23,8 @@ RUN <<EOF
         patch \
         perl-FindBin \
         perl-IPC-Cmd \
+        perl-Time-Piece \
+        perl-lib \
         pkgconf-pkg-config \
         python-unversioned-command \
         python3 \
@@ -39,7 +42,7 @@ RUN <<EOF
 EOF
 
 RUN --mount=src=.,dst=/input <<EOF
-    for s in /input/*.sh; do cp $s /usr/bin/$(echo $s | sed -e 's|.*/||' -e 's/\.sh$//'); done
+    for s in /input/*.sh; do cp "$s" /usr/bin/$(basename "$s" .sh); done
     cp input/cross.meson input/toolchain.cmake /
 EOF
 
@@ -49,7 +52,7 @@ RUN <<EOF
     dnf5 install mingw32-{gcc{,-c++},libgomp}
     dnf5 clean all
     find /usr/*mingw*/* -type f -name "*.dll*" -delete
-    rm -rf /tmp/* /usr/share/doc/* /var/cache/* /var/lib/dnf/history.* /var/log/* /var/tmp/*
+    rm -rf /tmp/* /usr/share/doc/* /usr/i686-w64-mingw32ucrt/sys-root/mingw/share/locale/* /usr/i686-w64-mingw32ucrt/sys-root/mingw/share/man/* /var/cache/* /var/lib/dnf/history.* /var/log/* /var/tmp/*
     mkdir /opt/ffbuild
 EOF
 
