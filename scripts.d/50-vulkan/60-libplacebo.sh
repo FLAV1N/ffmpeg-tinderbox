@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PLACEBO_REPO="https://github.com/haasn/libplacebo.git"
-PLACEBO_COMMIT="1dcaea8b601aa969ffd5bfa70088957ce3eaa273"
+PLACEBO_COMMIT="3be579e6c7f6b421d9ac3ab4860edc437c50b3eb"
 
 ffbuild_enabled() {
     return 0
@@ -12,19 +12,15 @@ ffbuild_dockerbuild() {
     cd placebo
     git submodule update --init --recursive --depth 1
 
-    # Don't define PL_EXPORT for static build
-    # https://code.videolan.org/videolan/libplacebo/-/merge_requests/682
-    sed -i "/c_args:/s/'-DPL_EXPORT'/'-DPL_STATIC'/" src/meson.build
-
     mkdir build && cd build
 
     local myconf=(
         --prefix="$FFBUILD_PREFIX"
         --buildtype=release
         -Ddefault_library=static
-        -D{d3d11,vulkan,shaderc}"=enabled"
+        -D{d3d11,vk-proc-addr,vulkan,shaderc}"=enabled"
         -D{bench,demos,fuzz,tests}"=false"
-        -D{glslang,vk-proc-addr}"=disabled"
+        -Dglslang=disabled
         -Dvulkan-registry="$FFBUILD_PREFIX"/share/vulkan/registry/vk.xml
     )
 

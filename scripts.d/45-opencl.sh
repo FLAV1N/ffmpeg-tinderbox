@@ -1,10 +1,10 @@
 #!/bin/bash
 
 HEADERS_REPO="https://github.com/KhronosGroup/OpenCL-Headers.git"
-HEADERS_COMMIT="8b61a0ef8fe061afa1b3b291cbb9781a96827e41"
+HEADERS_COMMIT="a98488062f50c77c3e2edaf9c4f8dca7c41781ec"
 
 LOADER_REPO="https://github.com/KhronosGroup/OpenCL-ICD-Loader.git"
-LOADER_COMMIT="c987c97918e26de669ad3ae8229b21a6d8be6748"
+LOADER_COMMIT="18fdcd58286376124f938948aa8ed156079c1c16"
 
 ffbuild_enabled() {
     return 0
@@ -21,9 +21,6 @@ ffbuild_dockerbuild() {
     cd loader
 
     mkdir build && cd build
-
-    # 💥 Resolve DllMain symbol conflict with libmingwex.a during ffmpeg-shared build
-    export CFLAGS="$CFLAGS -DDllMain=OpenCL_DllMain"
 
     cmake \
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \

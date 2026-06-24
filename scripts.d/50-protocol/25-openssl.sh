@@ -1,8 +1,8 @@
 #!/bin/bash
 
 OPENSSL_REPO="https://github.com/openssl/openssl.git"
-OPENSSL_COMMIT="openssl-3.6.1"
-OPENSSL_TAGFILTER="openssl-3.6.*"
+OPENSSL_COMMIT="openssl-4.0.1"
+OPENSSL_TAGFILTER="openssl-4.0.*"
 
 ffbuild_enabled() {
     return 0

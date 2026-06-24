@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIBBLURAY_REPO="https://code.videolan.org/videolan/libbluray.git"
-LIBBLURAY_COMMIT="15dd24fe7dd684f4fba93870f69b4ce65ddd1ef4"
+LIBBLURAY_COMMIT="8b4fb6e2562bb86601ea5a2c4140af6d8f3f1cf4"
 
 ffbuild_enabled() {
     return 0
@@ -19,8 +19,8 @@ ffbuild_dockerbuild() {
         --prefix="$FFBUILD_PREFIX"
         --buildtype=release
         -Ddefault_library=static
+        -Denable_tools=false
         -D{bdj_jar,fontconfig,freetype,libxml2}"=disabled"
-        -D{enable_tools,java9}"=false"
     )
 
     if [[ $TARGET == win* ]]; then

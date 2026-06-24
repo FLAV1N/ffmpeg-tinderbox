@@ -1,24 +1,25 @@
 #!/bin/bash
 
-WEBP_REPO="https://github.com/webmproject/libwebp.git"
-WEBP_COMMIT="3757b8afeb54e305eaef18502812a9a88b7ed662"
+SOFA_REPO="https://github.com/hoene/libmysofa.git"
+SOFA_COMMIT="42f3ae68825a4eb2d5593a2308c3483ebbdd8bfe"
 
 ffbuild_enabled() {
     return 0
 }
 
 ffbuild_dockerbuild() {
-    git-mini-clone "$WEBP_REPO" "$WEBP_COMMIT" webp
-    cd webp
+    git-mini-clone "$SOFA_REPO" "$SOFA_COMMIT" sofa
+    cd sofa
 
-    mkdir build && cd build
+    mkdir ffbuild && cd ffbuild
 
     cmake \
         -DCMAKE_TOOLCHAIN_FILE="$FFBUILD_CMAKE_TOOLCHAIN" \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF \
-        -DWEBP_BUILD_{{C,D,GIF2,IMG2,V}WEBP,ANIM_UTILS,EXTRAS,WEBPINFO,WEBPMUX}=OFF \
+        -DBUILD_STATIC_LIBS=ON \
+        -DBUILD_TESTS=OFF \
         -GNinja \
         ..
     ninja -j"$(nproc)"
@@ -26,9 +27,9 @@ ffbuild_dockerbuild() {
 }
 
 ffbuild_configure() {
-    echo --enable-libwebp
+    echo --enable-libmysofa
 }
 
 ffbuild_unconfigure() {
-    echo --disable-libwebp
+    echo --disable-libmysofa
 }

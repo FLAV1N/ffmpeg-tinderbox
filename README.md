@@ -100,6 +100,7 @@ Upon successful build completion, the build artifacts will be available in the `
 - liblc3
 - liblcevc-dec
 - libmp3lame
+- libmysofa
 - liboapv
 - libopencore-amrnb
 - libopencore-amrwb
@@ -117,6 +118,7 @@ Upon successful build completion, the build artifacts will be available in the `
 - libsrt
 - libssh
 - libsvtav1
+- libsvtjpegxs
 - libtheora
 - libtwolame
 - libuavs3d

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 LCEVCDEC_REPO="https://github.com/v-novaltd/LCEVCdec.git"
-LCEVCDEC_COMMIT="4.0.4"
-LCEVCDEC_TAGFILTER="4.0.*"
+LCEVCDEC_COMMIT="4.1.0"
+LCEVCDEC_TAGFILTER="4.1.*"
 
 ffbuild_enabled() {
     [[ $VARIANT == *nonfree* ]] || return -1
@@ -20,7 +20,7 @@ ffbuild_dockerbuild() {
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX="$FFBUILD_PREFIX" \
         -DBUILD_SHARED_LIBS=OFF \
-        -DVN_SDK_{METRICS,PIPELINE_LEGACY,SAMPLE_SOURCE,TRACING}=OFF \
+        -DVN_SDK_{METRICS,SAMPLE_SOURCE,TRACING}=OFF \
         -DPC_LIBS_PRIVATE="Libs.private: -lstdc++" \
         -GNinja \
         ..
